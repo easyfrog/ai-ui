@@ -3,7 +3,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { useCssModule, ref } from 'vue'
+import { useCssModule, ref, watch } from 'vue'
 import Menu from '../Menu/Menu.vue'
 import MenuItem from '../Menu/MenuItem.vue'
 import SubMenu from '../Menu/SubMenu.vue'
@@ -13,39 +13,51 @@ const props = defineProps<{
   theme?: string
   logo?: string
   title?: string
+  collapsed?: boolean
 }>()
 
-const collapsed = ref(false)
+const emit = defineEmits(['update:collapsed'])
+
+// Internal state initialized from props
+const internalCollapsed = ref(props.collapsed || false)
+
+watch(() => props.collapsed, (val) => {
+  if (val !== undefined) {
+    internalCollapsed.value = val
+  }
+})
+
 const cm = useCssModule()
 
 const toggleCollapse = () => {
-  collapsed.value = !collapsed.value
+  const newVal = !internalCollapsed.value
+  internalCollapsed.value = newVal
+  emit('update:collapsed', newVal)
 }
 
 const render = () => {
   return (
-    <div class={[cm.sidebar, collapsed.value && cm.collapsed]} data-theme={props.theme}>
+    <div class={[cm.sidebar, internalCollapsed.value && cm.collapsed]} data-theme={props.theme}>
       <div class={cm.logo}>
         <Icon name="logo" size="24px" color="var(--color-primary)" />
-        {!collapsed.value && <span class={cm.title}>{props.title || 'Admin Panel'}</span>}
+        {!internalCollapsed.value && <span class={cm.title}>{props.title || 'Admin Panel'}</span>}
       </div>
       
       <div class={cm.menuWrapper}>
-        <Menu mode="vertical" collapse={collapsed.value} defaultActive="1" theme={props.theme as any}>
-          <MenuItem index="1" icon="home">Home</MenuItem>
-          <SubMenu index="2" title="Management" icon="setting">
-            <MenuItem index="2-1">Users</MenuItem>
-            <MenuItem index="2-2">Roles</MenuItem>
-            <MenuItem index="2-3">Permissions</MenuItem>
+        <Menu mode="vertical" collapse={internalCollapsed.value} defaultActive="1" theme={props.theme as any}>
+          <MenuItem index="1" icon="home" to="/">Home</MenuItem>
+          <SubMenu index="2" title="Components" icon="search">
+            <MenuItem index="2-1" to="/basic">Basic</MenuItem>
+            <MenuItem index="2-2" to="/form">Form</MenuItem>
+            <MenuItem index="2-3" to="/data">Data</MenuItem>
+            <MenuItem index="2-4" to="/feedback">Feedback</MenuItem>
+            <MenuItem index="2-5" to="/navigation">Navigation</MenuItem>
           </SubMenu>
-          <MenuItem index="3" icon="search">Search</MenuItem>
-          <MenuItem index="4" icon="delete">Trash</MenuItem>
         </Menu>
       </div>
 
       <div class={cm.collapseBtn} onClick={toggleCollapse}>
-        <Icon name={collapsed.value ? 'arrow-right' : 'arrow-left'} />
-        {/* {!collapsed.value && <span style={{ marginLeft: '10px' }}>Collapse</span>} */}
+        <Icon name={internalCollapsed.value ? 'arrow-right' : 'arrow-left'} />
       </div>
     </div>
   )

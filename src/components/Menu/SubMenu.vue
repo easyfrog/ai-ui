@@ -3,9 +3,11 @@
 </template>
 
 <script lang="tsx" setup>
-import { useCssModule, inject, ref, provide } from 'vue'
+import { useCssModule, inject, ref, provide, computed, useSlots } from 'vue'
 import Icon from '../Icon/Icon.vue'
 import CollapseTransition from '../Transition/CollapseTransition.vue'
+import MenuPopup from './MenuPopup.vue'
+import Popover from '../Popover/Popover.vue'
 
 const props = defineProps<{
   index: string
@@ -16,39 +18,69 @@ const props = defineProps<{
 const cm = useCssModule()
 const menu = inject<any>('menu')
 const level = inject<number>('menu-level', 1)
+const isPopup = inject<boolean>('isPopup', false)
+const slots = useSlots()
 
 // Provide next level to children
 provide('menu-level', level + 1)
 
 const isOpened = ref(false)
 
+const effectiveCollapsed = computed(() => menu.collapse?.value && !isPopup)
+
 const handleClick = () => {
-  if (menu.collapse?.value) return
+  if (effectiveCollapsed.value) return
   isOpened.value = !isOpened.value
 }
 
 const render = () => {
-  const collapsed = menu.collapse?.value
+  const collapsed = effectiveCollapsed.value
+  const realCollapsed = menu.collapse?.value
+  
+  const renderTitle = () => (
+    <div 
+      class={[cm.submenuTitle, collapsed && cm.collapsed]} 
+      onClick={handleClick}
+      title={collapsed ? props.title : ''}
+    >
+      {props.icon && (
+        <span class={cm.icon}>
+          <Icon name={props.icon} />
+        </span>
+      )}
+      {!collapsed && <span class={cm.text}>{props.title}</span>}
+      {!collapsed && (
+        <span class={[cm.arrow, isOpened.value && cm.arrowOpen]}>
+           <Icon name="arrow-right" size="14px" />
+        </span>
+      )}
+    </div>
+  )
+  
+  if (realCollapsed && !isPopup) {
+    return (
+      <li class={[cm.submenu, collapsed && cm.collapsed]}>
+        <Popover 
+          trigger="hover" 
+          placement="right" 
+          theme={menu.theme?.value}
+          mouseLeaveDelay={300}
+          v-slots={{
+            default: renderTitle,
+            content: () => (
+              <MenuPopup>
+                {slots.default?.()}
+              </MenuPopup>
+            )
+          }}
+        />
+      </li>
+    )
+  }
   
   return (
     <li class={[cm.submenu, collapsed && cm.collapsed]}>
-      <div 
-        class={[cm.submenuTitle, collapsed && cm.collapsed]} 
-        onClick={handleClick}
-        title={collapsed ? props.title : ''}
-      >
-        {props.icon && (
-          <span class={cm.icon}>
-            <Icon name={props.icon} />
-          </span>
-        )}
-        {!collapsed && <span class={cm.text}>{props.title}</span>}
-        {!collapsed && (
-          <span class={[cm.arrow, isOpened.value && cm.arrowOpen]}>
-             <Icon name="arrow-right" size="14px" />
-          </span>
-        )}
-      </div>
+      {renderTitle()}
       {!collapsed && (
         <CollapseTransition>
           <ul v-show={isOpened.value} class={cm.subList}>
@@ -59,14 +91,12 @@ const render = () => {
     </li>
   )
 }
-
-import { useSlots } from 'vue'
-const slots = useSlots()
 </script>
 
 <style module>
 .submenu {
   list-style: none;
+  position: relative;
 }
 
 .submenuTitle {

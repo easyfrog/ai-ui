@@ -25,7 +25,8 @@ provide('menu', {
   activeIndex,
   handleSelect,
   mode: props.mode || 'vertical',
-  collapse: computed(() => props.collapse)
+  collapse: computed(() => props.collapse),
+  theme: computed(() => props.theme)
 })
 
 const render = () => {

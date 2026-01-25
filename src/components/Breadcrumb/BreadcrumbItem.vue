@@ -4,6 +4,7 @@
 
 <script lang="tsx" setup>
 import { useCssModule, inject } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   to?: string
@@ -11,11 +12,21 @@ const props = defineProps<{
 
 const cm = useCssModule()
 const breadcrumb = inject<any>('breadcrumb')
+const router = useRouter()
+
+const handleClick = () => {
+  if (props.to) {
+    router.push(props.to)
+  }
+}
 
 const render = () => {
   return (
     <span class={cm.item}>
-      <span class={[cm.link, props.to && cm.isLink]}>
+      <span 
+        class={[cm.link, props.to && cm.isLink]}
+        onClick={handleClick}
+      >
         {slots.default?.()}
       </span>
       <span class={cm.separator}>{breadcrumb.separator}</span>

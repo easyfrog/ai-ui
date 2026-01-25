@@ -5,6 +5,7 @@
 <script lang="tsx" setup>
 import { useCssModule } from 'vue'
 import CollapseTransition from '../Transition/CollapseTransition.vue'
+import Icon from '../Icon/Icon.vue'
 
 interface TreeNode {
   label: string
@@ -31,8 +32,8 @@ const renderNode = (node: TreeNode, level: number = 0) => {
         style={{ paddingLeft: `${level * 18}px` }}
         onClick={() => toggle(node)}
       >
-        <span class={[cm.arrow, node.expanded && cm.expanded, (!node.children || node.children.length === 0) && cm.invisible]}>
-          ▶
+        <span class={[cm.arrowWrapper, node.expanded && cm.expanded, (!node.children || node.children.length === 0) && cm.invisible]}>
+           <Icon name="caret-right" size="12px" color="currentColor" />
         </span>
         <span class={cm.label}>{node.label}</span>
       </div>
@@ -76,18 +77,17 @@ const render = () => {
   background-color: var(--bg-component-hover);
 }
 
-.arrow {
+.arrowWrapper {
   cursor: pointer;
   color: var(--text-secondary);
-  font-size: 12px;
   transform: rotate(0deg);
   transition: transform .3s ease-in-out;
   margin-right: 6px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 12px;
   height: 12px;
-  line-height: 12px;
-  text-align: center;
 }
 
 .expanded {

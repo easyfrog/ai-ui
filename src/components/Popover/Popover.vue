@@ -10,12 +10,14 @@ const props = defineProps<{
   trigger?: 'click' | 'hover'
   placement?: 'top' | 'bottom' | 'left' | 'right'
   theme?: 'light' | 'dark' | 'deep-blue'
+  mouseLeaveDelay?: number
 }>()
 
 const cm = useCssModule()
 const visible = ref(false)
 const referenceRef = ref<HTMLElement | null>(null)
 const popperRef = ref<HTMLElement | null>(null)
+let timer: ReturnType<typeof setTimeout> | null = null
 
 const toggle = () => {
   visible.value = !visible.value
@@ -25,12 +27,35 @@ const toggle = () => {
 }
 
 const show = () => {
+  if (timer) {
+    clearTimeout(timer)
+    timer = null
+  }
   visible.value = true
   nextTick(updatePosition)
 }
 
 const hide = () => {
-  visible.value = false
+  if (props.trigger === 'hover' && props.mouseLeaveDelay) {
+    timer = setTimeout(() => {
+      visible.value = false
+    }, props.mouseLeaveDelay)
+  } else {
+    visible.value = false
+  }
+}
+
+const handlePopperMouseEnter = () => {
+  if (props.trigger === 'hover' && timer) {
+    clearTimeout(timer)
+    timer = null
+  }
+}
+
+const handlePopperMouseLeave = () => {
+  if (props.trigger === 'hover') {
+    hide()
+  }
 }
 
 const updatePosition = () => {
@@ -50,6 +75,10 @@ const updatePosition = () => {
     case 'bottom':
       top = rect.bottom + 10
       left = rect.left + (rect.width - popperRect.width) / 2
+      break
+    case 'right':
+      top = rect.top
+      left = rect.right + 10
       break
     default: // bottom
       top = rect.bottom + 10
@@ -92,6 +121,8 @@ const render = () => {
             ref={popperRef} 
             class={cm.popper} 
             data-theme={props.theme}
+            onMouseenter={handlePopperMouseEnter}
+            onMouseleave={handlePopperMouseLeave}
           >
             {props.content || slots.content?.()}
             <div class={cm.arrow}></div>

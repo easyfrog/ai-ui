@@ -8,6 +8,8 @@ import { useCssModule, useSlots } from 'vue'
 const props = defineProps<{
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'default'
   theme?: 'light' | 'dark' | 'deep-blue'
+  disabled?: boolean
+  size?: 'large' | 'small' | 'default'
 }>()
 
 const emit = defineEmits<{
@@ -19,11 +21,15 @@ const slots = useSlots()
 
 const render = () => {
   const btnType = props.type || 'default'
+  // Avoid using 'default' class for size to prevent conflict with 'default' type
+  const btnSize = props.size === 'default' ? undefined : props.size
+  
   return (
     <button 
-      class={[cm.button, cm[btnType]]}
+      class={[cm.button, cm[btnType], btnSize && cm[btnSize], props.disabled && cm.disabled]}
       data-theme={props.theme}
-      onClick={(e) => emit('click', e)}
+      disabled={props.disabled}
+      onClick={(e) => !props.disabled && emit('click', e)}
     >
       {slots.default?.()}
     </button>
@@ -53,6 +59,22 @@ const render = () => {
   margin-right: 8px;
 }
 
+.button:active {
+  transform: scale(0.96);
+}
+
+.large {
+  height: 40px;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+.small {
+  height: 24px;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
 .default {
   background-color: var(--bg-component);
   border-color: var(--border-base);
@@ -72,8 +94,25 @@ const render = () => {
   border-color: var(--color-primary);
   color: var(--c-white);
 }
-.primary:hover {
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.primary:hover,
+.success:hover,
+.warning:hover,
+.danger:hover,
+.info:hover {
   opacity: 0.9;
+}
+
+.primary:active,
+.success:active,
+.warning:active,
+.danger:active,
+.info:active {
+  filter: brightness(0.9);
 }
 
 .success {

@@ -3,47 +3,73 @@
 </template>
 
 <script lang="tsx" setup>
-import { useCssModule } from 'vue'
+import { useCssModule, ref, watch, computed } from 'vue'
+import { useRoute, RouterView } from 'vue-router'
 import MenuBar from '../MenuBar/MenuBar.vue'
 import SideBar from '../SideBar/SideBar.vue'
 import Breadcrumb from '../Breadcrumb/Breadcrumb.vue'
 import BreadcrumbItem from '../Breadcrumb/BreadcrumbItem.vue'
 import Card from '../Card/Card.vue'
+import { useScreen } from '../../hooks/useScreen'
 
 const props = defineProps<{
-  theme?: string
+  initialTheme?: string
 }>()
 
-const emit = defineEmits(['update:theme'])
 const cm = useCssModule()
+const { isMobile, isPad } = useScreen()
+const collapsed = ref(false)
+const theme = ref(props.initialTheme || 'light')
+const route = useRoute()
+
+const handleThemeUpdate = (newTheme: string) => {
+  theme.value = newTheme
+}
+
+// Auto-collapse when entering Mobile or Pad, expand when leaving
+watch([isMobile, isPad], ([mobile, pad]) => {
+  if (mobile || pad) {
+    collapsed.value = true
+  } else {
+    collapsed.value = false // Auto expand on larger screens
+  }
+})
+
+// Initialize state based on current screen
+if (isMobile.value || isPad.value) {
+  collapsed.value = true
+}
+
+const pageTitle = computed(() => route.meta.title as string || 'Dashboard')
 
 const render = () => {
   return (
-    <div class={cm.layout} data-theme={props.theme}>
-      <SideBar theme={props.theme} title="AI-UI Admin" />
+    <div class={cm.layout} data-theme={theme.value}>
+      <SideBar 
+        theme={theme.value} 
+        title="AI-UI Admin" 
+        collapsed={collapsed.value}
+        onUpdate:collapsed={(v: boolean) => collapsed.value = v}
+      />
       
       <div class={cm.main}>
         <MenuBar 
-          theme={props.theme} 
+          theme={theme.value} 
           username="Admin User" 
-          onUpdate:theme={(v: string) => emit('update:theme', v)}
+          onUpdate:theme={handleThemeUpdate}
         />
         
         <div class={cm.content}>
           <div class={cm.breadcrumbWrapper}>
-            <Breadcrumb theme={props.theme}>
+            <Breadcrumb theme={theme.value}>
               <BreadcrumbItem to="/">Home</BreadcrumbItem>
-              <BreadcrumbItem to="/dashboard">Dashboard</BreadcrumbItem>
-              <BreadcrumbItem>Analysis</BreadcrumbItem>
+              <BreadcrumbItem>{pageTitle.value}</BreadcrumbItem>
             </Breadcrumb>
           </div>
           
           <div class={cm.page}>
-            <Card class={cm.pageCard} theme={props.theme as any}>
-               <h3>Main Content Area</h3>
-               <p>This is a demo of the admin layout framework.</p>
-               <p>The card automatically fills the available space.</p>
-               {slots.default?.()}
+            <Card class={cm.pageCard} theme={theme.value as any} header={pageTitle.value}>
+               <RouterView />
             </Card>
           </div>
         </div>
@@ -51,9 +77,6 @@ const render = () => {
     </div>
   )
 }
-
-import { useSlots } from 'vue'
-const slots = useSlots()
 </script>
 
 <style module>
@@ -81,19 +104,19 @@ const slots = useSlots()
 }
 
 .breadcrumbWrapper {
-  padding: 20px 20px 0;
+  padding: 20px 20px;
   background-color: var(--bg-app);
 }
 
 .page {
   flex: 1;
-  padding: 20px;
+  padding: 0 20px 20px;
   box-sizing: border-box;
   overflow: auto;
 }
 
 .pageCard {
-  height: 100%;
+  min-height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

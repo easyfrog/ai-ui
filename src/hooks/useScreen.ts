@@ -1,0 +1,29 @@
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+export const useScreen = () => {
+  const width = ref(window.innerWidth)
+  
+  const updateWidth = () => {
+    width.value = window.innerWidth
+  }
+  
+  onMounted(() => {
+    window.addEventListener('resize', updateWidth)
+  })
+  
+  onUnmounted(() => {
+    window.removeEventListener('resize', updateWidth)
+  })
+  
+  // Breakpoints: Mobile < 768px, Pad 768px-1024px, PC >= 1024px
+  const isMobile = computed(() => width.value < 768)
+  const isPad = computed(() => width.value >= 768 && width.value < 1024)
+  const isPC = computed(() => width.value >= 1024)
+  
+  return {
+    width,
+    isMobile,
+    isPad,
+    isPC
+  }
+}
