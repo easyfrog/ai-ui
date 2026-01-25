@@ -81,7 +81,7 @@ const slots = useSlots()
 }
 
 .breadcrumbWrapper {
-  padding: 15px 20px;
+  padding: 20px 20px 0;
   background-color: var(--bg-app);
 }
 

@@ -57,6 +57,7 @@ const render = () => {
   position: relative;
   fill: currentColor;
   color: inherit;
-  font-size: inherit;
+  /* font-size: inherit; */
+  font-size: 1.2rem;
 }
 </style>
