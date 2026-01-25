@@ -81,8 +81,6 @@ const render = () => (
       <Input
         v-model={iconFilter.value}
         placeholder="Filter icons..."
-        prefix="search"
-        allowClear
       />
     </div>
     <div class={cm.iconGrid}>

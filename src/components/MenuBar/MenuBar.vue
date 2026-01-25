@@ -6,6 +6,7 @@
 import { useCssModule } from 'vue'
 import Menu from '../Menu/Menu.vue'
 import MenuItem from '../Menu/MenuItem.vue'
+import SubMenu from '../Menu/SubMenu.vue'
 import Avatar from '../Avatar/Avatar.vue'
 import Dropdown from '../Dropdown/Dropdown.vue'
 import DropdownItem from '../Dropdown/DropdownItem.vue'
@@ -28,6 +29,16 @@ const render = () => {
           <MenuItem index="1">Dashboard</MenuItem>
           <MenuItem index="2">Projects</MenuItem>
           <MenuItem index="3">Team</MenuItem>
+          <SubMenu index="4" title="Resources" icon="folder">
+            <MenuItem index="4-1">Documentation</MenuItem>
+            <MenuItem index="4-2">API Reference</MenuItem>
+            <SubMenu index="4-3" title="More Tools" icon="setting">
+              <MenuItem index="4-3-1">Tool A</MenuItem>
+              <MenuItem index="4-3-2">Tool B</MenuItem>
+              <MenuItem index="4-3-3">Tool C</MenuItem>
+            </SubMenu>
+            <MenuItem index="4-4">Support</MenuItem>
+          </SubMenu>
         </Menu>
       </div>
       <div class={cm.right}>

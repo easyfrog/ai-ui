@@ -27,19 +27,40 @@ provide('menu-level', level + 1)
 const isOpened = ref(false)
 
 const effectiveCollapsed = computed(() => menu.collapse?.value && !isPopup)
+const isHorizontal = computed(() => menu.mode === 'horizontal')
+
+const isInPopup = computed(() => isPopup || (isHorizontal.value && level > 1))
+
+// Determine if we should use Popover behavior
+const usePopover = computed(() => {
+  if (isHorizontal.value) return true // Horizontal menu always uses popovers for submenus
+  if (effectiveCollapsed.value) return true // Collapsed sidebar uses popovers
+  if (isPopup) return true // Nested items in popups use popovers (for side menus)
+  return false
+})
+
+const popoverPlacement = computed(() => {
+  if (isHorizontal.value && !isInPopup.value) return 'bottom'
+  return 'right'
+})
 
 const handleClick = () => {
-  if (effectiveCollapsed.value) return
+  if (usePopover.value) return // Popover handles trigger
   isOpened.value = !isOpened.value
 }
 
 const render = () => {
   const collapsed = effectiveCollapsed.value
-  const realCollapsed = menu.collapse?.value
   
   const renderTitle = () => (
     <div 
-      class={[cm.submenuTitle, collapsed && cm.collapsed]} 
+      class={[
+        cm.submenuTitle, 
+        collapsed && cm.collapsed,
+        isInPopup.value && cm.inPopupTitle,
+        // Only apply horizontal styling (static arrow) if we are strictly top-level horizontal
+        isHorizontal.value && !isInPopup.value && cm.horizontalTitle
+      ]} 
       onClick={handleClick}
       title={collapsed ? props.title : ''}
     >
@@ -51,18 +72,21 @@ const render = () => {
       {!collapsed && <span class={cm.text}>{props.title}</span>}
       {!collapsed && (
         <span class={[cm.arrow, isOpened.value && cm.arrowOpen]}>
-           <Icon name="arrow-right" size="14px" />
+           <Icon 
+             name={isHorizontal.value && !isInPopup.value ? "caret-bottom" : "arrow-right"} 
+             size="14px" 
+           />
         </span>
       )}
     </div>
   )
   
-  if (realCollapsed && !isPopup) {
+  if (usePopover.value) {
     return (
-      <li class={[cm.submenu, collapsed && cm.collapsed]}>
+      <li class={[cm.submenu, collapsed && cm.collapsed, isHorizontal.value && cm.horizontal]}>
         <Popover 
           trigger="hover" 
-          placement="right" 
+          placement={popoverPlacement.value} 
           theme={menu.theme?.value}
           mouseLeaveDelay={300}
           v-slots={{
@@ -114,8 +138,22 @@ const render = () => {
   align-items: center;
 }
 
+.horizontalTitle {
+  padding: 0 20px;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+}
+
 .submenuTitle:hover {
   background-color: var(--bg-component-hover);
+}
+
+.collapsed .submenuTitle {
+  padding: 0 20px;
+  justify-content: center;
 }
 
 .icon {
@@ -126,34 +164,45 @@ const render = () => {
   width: 24px;
 }
 
+.collapsed .icon {
+  margin-right: 0;
+}
+
 .text {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.3s;
+}
+
+.inPopupTitle .text {
+  padding-right: 16px;
 }
 
 .arrow {
-  transition: transform 0.3s;
-  display: flex;
+  margin-left: auto;
+  display: inline-flex;
   align-items: center;
+  transition: transform .3s;
+  opacity: 0.8;
+}
+
+.horizontalTitle .arrow {
+  margin-left: 8px;
 }
 
 .arrowOpen {
   transform: rotate(90deg);
 }
 
+.horizontalTitle .arrowOpen {
+  transform: rotate(180deg);
+}
+
 .subList {
   margin: 0;
   padding: 0;
   list-style: none;
-  background-color: rgba(0, 0, 0, 0.02); /* Slight contrast for submenu */
-}
-
-/* Collapsed state */
-.collapsed .submenuTitle {
-  justify-content: center;
-  padding: 0 20px;
-}
-
-.collapsed .icon {
-  margin-right: 0;
 }
 </style>
