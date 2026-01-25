@@ -1,0 +1,118 @@
+/* Global Animation Definitions */
+
+/* Fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Dialog Zoom */
+.dialog-fade-enter-active,
+.dialog-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.dialog-fade-enter-from,
+.dialog-fade-leave-to {
+  opacity: 0;
+}
+
+.dialog-fade-enter-active .dialog-content,
+.dialog-fade-leave-active .dialog-content {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.dialog-fade-enter-from .dialog-content,
+.dialog-fade-leave-to .dialog-content {
+  transform: scale(0.9);
+}
+
+/* Drawer Slide */
+.drawer-fade-enter-active,
+.drawer-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.drawer-fade-enter-from,
+.drawer-fade-leave-to {
+  opacity: 0;
+}
+
+.drawer-slide-rtl-enter-active,
+.drawer-slide-rtl-leave-active {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.drawer-slide-rtl-enter-from,
+.drawer-slide-rtl-leave-to {
+  transform: translateX(100%);
+}
+
+.drawer-slide-ltr-enter-active,
+.drawer-slide-ltr-leave-active {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.drawer-slide-ltr-enter-from,
+.drawer-slide-ltr-leave-to {
+  transform: translateX(-100%);
+}
+
+.drawer-slide-ttb-enter-active,
+.drawer-slide-ttb-leave-active {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.drawer-slide-ttb-enter-from,
+.drawer-slide-ttb-leave-to {
+  transform: translateY(-100%);
+}
+
+.drawer-slide-btt-enter-active,
+.drawer-slide-btt-leave-active {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.drawer-slide-btt-enter-from,
+.drawer-slide-btt-leave-to {
+  transform: translateY(100%);
+}
+
+
+/* Message / Notification Slide Top/Right */
+.message-fade-enter-active,
+.message-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.message-fade-enter-from,
+.message-fade-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -100%);
+}
+
+.notification-fade-enter-active,
+.notification-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.notification-fade-enter-from,
+.notification-fade-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* Toast Fade */
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+}
+
+/* Collapse / Tree Transition */
+.collapse-transition {
+  transition: height 0.3s ease-in-out, padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
+  overflow: hidden;
+}
