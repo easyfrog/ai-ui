@@ -11,6 +11,7 @@ import Text from '../components/Text/Text.vue'
 import Color from '../components/Color/Color.vue'
 import Icon from '../components/Icon/Icon.vue'
 import Input from '../components/Input/Input.vue'
+import Scroll from '../components/Scroll/Scroll.vue'
 import { icons } from '../components/Icon/icons'
 
 const cm = useCssModule()
@@ -22,6 +23,38 @@ const filteredIcons = computed(() => {
   if (!keyword) return Object.keys(icons)
   return Object.keys(icons).filter(name => name.toLowerCase().includes(keyword))
 })
+
+const renderScrollDemo = () => (
+  <>
+    <h3 class={cm.title}>Scroll</h3>
+    <div class={cm.row} style={{ width: '100%' }}>
+      <Scroll height={180} class={cm.scrollBox}>
+        {Array.from({ length: 30 }).map((_, i) => (
+          <div class={cm.scrollItem} key={i}>
+            Item {i + 1}
+          </div>
+        ))}
+      </Scroll>
+    </div>
+  </>
+)
+
+const renderIconDemo = () => (
+  <>
+    <h3 class={cm.title}>Icons</h3>
+    <div class={cm.row}>
+      <Input v-model={iconFilter.value} placeholder="Filter icons..." />
+    </div>
+    <div class={cm.iconGrid}>
+      {filteredIcons.value.map(name => (
+        <div class={cm.iconItem} key={name} title={name}>
+          <Icon name={name} size="24px" />
+          <span class={cm.iconName}>{name}</span>
+        </div>
+      ))}
+    </div>
+  </>
+)
 
 const render = () => (
   <div>
@@ -75,22 +108,8 @@ const render = () => (
        <Color color="#f56c6c" />
        <Color color="#909399" />
     </div>
-
-    <h3 class={cm.title}>Icons</h3>
-    <div class={cm.row}>
-      <Input
-        v-model={iconFilter.value}
-        placeholder="Filter icons..."
-      />
-    </div>
-    <div class={cm.iconGrid}>
-       {filteredIcons.value.map(name => (
-         <div class={cm.iconItem} key={name} title={name}>
-           <Icon name={name} size="24px" />
-           <span class={cm.iconName}>{name}</span>
-         </div>
-       ))}
-    </div>
+    {renderScrollDemo()}
+    {renderIconDemo()}
   </div>
 )
 </script>
@@ -139,5 +158,26 @@ const render = () => (
   color: var(--text-primary);
   border-bottom: 1px solid var(--border-base);
   padding-bottom: 10px;
+}
+
+.scrollBox {
+  width: 320px;
+  border: 1px solid var(--border-base);
+  border-radius: 6px;
+  background-color: var(--bg-component);
+}
+
+.scrollItem {
+  height: 40px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-base);
+  color: var(--text-regular);
+  box-sizing: border-box;
+}
+
+.scrollItem:last-child {
+  border-bottom: none;
 }
 </style>

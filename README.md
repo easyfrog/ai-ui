@@ -103,6 +103,28 @@ AI-UI 的核心特性是基于 `data-theme` 属性的主题切换：
 </div>
 ```
 
+### Scroll（自定义滚动容器）
+
+Windows 平台的原生滚动条样式较难统一。`Scroll` 组件提供了可随主题变化的滚动条外观（基于 CSS 变量），并支持限制容器高度/宽度。
+
+```tsx
+import Scroll from './components/Scroll/Scroll.vue'
+
+<Scroll height={180}>
+  {Array.from({ length: 30 }).map((_, i) => (
+    <div key={i}>Item {i + 1}</div>
+  ))}
+</Scroll>
+```
+
+如果需要强制指定主题（可选）：
+
+```tsx
+<Scroll height={180} theme="dark">
+  ...
+</Scroll>
+```
+
 ### 路由与页面
 项目内置了演示用的路由系统，将组件分类展示：
 - **Home**: 项目概览
