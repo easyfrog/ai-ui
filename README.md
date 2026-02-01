@@ -103,36 +103,23 @@ AI-UI 的核心特性是基于 `data-theme` 属性的主题切换：
 </div>
 ```
 
-### Scroll（自定义滚动容器）
+### 🆕 新增组件特性
 
-Windows 平台的原生滚动条样式较难统一。`Scroll` 组件提供了可随主题变化的滚动条外观（基于 CSS 变量），并支持限制容器高度/宽度。
+#### Scroll 组件 (New)
+- 自定义滚动条组件，替代原生滚动条。
+- 支持主题适配 (Light/Dark/Deep Blue)。
+- 自动隐藏/显示，支持 Fade 动画效果。
 
-```tsx
-import Scroll from './components/Scroll/Scroll.vue'
+#### Table 组件 (Enhanced)
+- **复选框选择**: 支持多选，表头全选/半选状态。
+- **固定列**: 支持 `fixed="left"` 和 `fixed="right"`。
+- **排序**: 支持点击表头排序。
+- **树形数据**: 支持嵌套数据展示 (`children` 字段) 和展开/折叠。
+- **展开行**: 支持自定义展开内容插槽。
 
-<Scroll height={180}>
-  {Array.from({ length: 30 }).map((_, i) => (
-    <div key={i}>Item {i + 1}</div>
-  ))}
-</Scroll>
-```
+#### Tree 组件 (Enhanced)
+- **复选框选择**: 支持 `checkable` 属性，自动处理父子节点选中状态联动。
+- **懒加载**: 支持 `loadData` 异步加载子节点。
 
-如果需要强制指定主题（可选）：
-
-```tsx
-<Scroll height={180} theme="dark">
-  ...
-</Scroll>
-```
-
-### 路由与页面
-项目内置了演示用的路由系统，将组件分类展示：
-- **Home**: 项目概览
-- **Basic**: 基础组件 (Button, Icon, Layout, Typography...)
-- **Form**: 表单组件 (Input, Select, Switch, Checkbox...)
-- **Data**: 数据展示 (Table, Tree, Pagination, Card...)
-- **Navigation**: 导航组件 (Menu, Breadcrumb, Steps...)
-- **Feedback**: 反馈组件 (Dialog, Message, Loading...)
-
-## 📝 贡献 (Contributing)
+## 🤝 贡献 (Contribution)
 欢迎提交 Issue 或 Pull Request 来丰富组件库或修复 Bug。请确保遵循现有的代码风格和组件结构。

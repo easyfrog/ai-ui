@@ -57,6 +57,55 @@ const treeData = reactive([
   }
 ])
 
+// --- New Complex Table Data ---
+const complexTableData = [
+  { id: 1, name: 'John Brown', age: 32, address: 'New York No. 1 Lake Park', role: 'Dev' },
+  { id: 2, name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park', role: 'Tester' },
+  { id: 3, name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park', role: 'PM' },
+  { 
+    id: 4, 
+    name: 'Parent Row (Tree)', 
+    age: 99, 
+    address: 'Tree Structure', 
+    role: 'Boss',
+    children: [
+       { id: 41, name: 'Child Row 1', age: 10, address: 'Nest 1', role: 'Intern' },
+       { id: 42, name: 'Child Row 2', age: 20, address: 'Nest 2', role: 'Intern' }
+    ] 
+  }
+]
+
+const complexColumns: any[] = [
+  { type: 'selection', width: 50, fixed: 'left', align: 'center' },
+  { type: 'expand', width: 50, fixed: 'left' },
+  { prop: 'name', label: 'Name', width: 180, fixed: 'left', sortable: true },
+  { prop: 'age', label: 'Age', width: 80, sortable: true },
+  { prop: 'role', label: 'Role', width: 100 },
+  { prop: 'address', label: 'Address', width: 300 },
+  { prop: 'action', label: 'Action', width: 100, fixed: 'right', render: () => <Button size="small" type="primary">Edit</Button> }
+]
+
+const selectedRowKeys = ref([])
+
+// --- Checkable & Lazy Tree Data ---
+const lazyTreeData = ref([
+  { label: 'Node 1', key: '1', children: [{ label: 'Child 1-1', key: '1-1' }] },
+  { label: 'Node 2 (Lazy Load)', key: '2' },
+  { label: 'Node 3 (Disabled)', key: '3', disabled: true }
+])
+const checkedTreeKeys = ref(['1-1'])
+
+const loadTreeData = (node: any) => {
+  return new Promise<any[]>((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { label: `Lazy Child ${node.label}-1`, key: `${node.key}-1`, isLeaf: true },
+        { label: `Lazy Child ${node.label}-2`, key: `${node.key}-2`, isLeaf: true }
+      ])
+    }, 1000)
+  })
+}
+
 const render = () => (
   <div>
     <h3 class={cm.title}>Table & Pagination</h3>
@@ -69,13 +118,50 @@ const render = () => (
       />
     </div>
 
+    <h3 class={cm.title}>Complex Table (Fixed, Sort, Tree, Select)</h3>
+    <Table 
+      data={complexTableData} 
+      columns={complexColumns} 
+      border 
+      stripe 
+      rowKey="id"
+      selection
+      v-model:selectedKeys={selectedRowKeys.value}
+      style={{ height: '300px' }} 
+    >
+      {{
+        expand: ({ row }: any) => (
+          <div style={{ padding: '16px', backgroundColor: 'var(--bg-app)' }}>
+            <h4 style={{ margin: '0 0 10px 0' }}>Detail for {row.name}</h4>
+            <div style={{ display: 'flex', gap: '20px' }}>
+              <div><strong>ID:</strong> {row.id}</div>
+              <div><strong>Role:</strong> {row.role}</div>
+              <div><strong>Address:</strong> {row.address}</div>
+            </div>
+          </div>
+        )
+      }}
+    </Table>
+    <div style={{ marginTop: '10px' }}>Selected IDs: {selectedRowKeys.value.join(', ')}</div>
+
     <h3 class={cm.title}>Tree & Collapse</h3>
     <div class={cm.row}>
       <div style={{ flex: 1, marginRight: '20px' }}>
-        <h4 class={cm.subtitle}>Tree</h4>
+        <h4 class={cm.subtitle}>Basic Tree</h4>
         <div style={{ border: '1px solid var(--border-base)', padding: '10px', borderRadius: '4px' }}>
           <Tree data={treeData} />
         </div>
+        
+        <h4 class={cm.subtitle}>Checkable & Lazy Tree</h4>
+        <div style={{ border: '1px solid var(--border-base)', padding: '10px', borderRadius: '4px' }}>
+          <Tree 
+            data={lazyTreeData.value} 
+            checkable 
+            v-model:checkedKeys={checkedTreeKeys.value}
+            loadData={loadTreeData}
+          />
+        </div>
+        <div style={{ marginTop: '10px' }}>Checked Keys: {checkedTreeKeys.value.join(', ')}</div>
       </div>
       <div style={{ flex: 1 }}>
         <h4 class={cm.subtitle}>Collapse</h4>

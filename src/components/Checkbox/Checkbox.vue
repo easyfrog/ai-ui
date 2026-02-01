@@ -9,6 +9,7 @@ const props = defineProps<{
   modelValue?: boolean
   label?: string
   disabled?: boolean
+  indeterminate?: boolean
   theme?: 'light' | 'dark' | 'deep-blue'
 }>()
 
@@ -24,13 +25,19 @@ const handleChange = (e: Event) => {
 
 const render = () => {
   return (
-    <label class={[cm.checkbox, props.disabled && cm.disabled, props.modelValue && cm.checked]} data-theme={props.theme}>
+    <label class={[
+      cm.checkbox, 
+      props.disabled && cm.disabled, 
+      props.modelValue && cm.checked,
+      props.indeterminate && cm.indeterminate
+    ]} data-theme={props.theme}>
       <span class={cm.inputWrapper}>
         <input
           type="checkbox"
           class={cm.original}
           checked={props.modelValue}
           disabled={props.disabled}
+          indeterminate={props.indeterminate}
           onChange={handleChange}
         />
         <span class={cm.inner}></span>
@@ -116,6 +123,25 @@ const render = () => {
 
 .checked .inner::after {
   transform: rotate(45deg) scaleY(1);
+}
+
+.indeterminate .inner {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.indeterminate .inner::after {
+  content: "";
+  position: absolute;
+  display: block;
+  background-color: var(--c-white);
+  height: 2px;
+  transform: scale(0.5);
+  left: 0;
+  right: 0;
+  top: 6px;
+  width: auto;
+  border: 0;
 }
 
 .disabled .inner {

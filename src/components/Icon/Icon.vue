@@ -10,6 +10,7 @@ const props = defineProps<{
   size?: string | number
   color?: string
   name?: string
+  spin?: boolean
   theme?: string
 }>()
 
@@ -30,6 +31,9 @@ const render = () => {
   }
 
   const classes = [cm.icon]
+  if (props.spin) {
+    classes.push(cm.spin)
+  }
   if (props.name && !path.value) {
     classes.push(`ai-icon-${props.name}`)
   }
@@ -59,5 +63,18 @@ const render = () => {
   color: inherit;
   /* font-size: inherit; */
   font-size: 1.2rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
