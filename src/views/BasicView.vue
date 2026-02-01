@@ -100,6 +100,36 @@ const render = () => (
       <Text type="danger">Danger</Text>
     </div>
 
+    <h3 class={cm.title}>Theming</h3>
+    <div class={cm.row}>
+      <div class={cm.themeCard} data-theme="light">
+        <h4>Light (Default)</h4>
+        <Button type="primary">Button</Button>
+      </div>
+      <div class={cm.themeCard} data-theme="dark">
+        <h4>Dark (Zinc)</h4>
+        <Button type="primary">Button</Button>
+      </div>
+      <div class={cm.themeCard} data-theme="deep-blue">
+        <h4>Deep Blue (Slate)</h4>
+        <Button type="primary">Button</Button>
+      </div>
+    </div>
+    <div class={cm.row}>
+      <div class={cm.themeCard} data-theme="matcha">
+        <h4>Matcha (Fresh)</h4>
+        <Button type="primary">Button</Button>
+      </div>
+      <div class={cm.themeCard} data-theme="lavender">
+        <h4>Lavender (Elegant)</h4>
+        <Button type="primary">Button</Button>
+      </div>
+      <div class={cm.themeCard} data-theme="warm">
+        <h4>Latte (Warm)</h4>
+        <Button type="primary">Button</Button>
+      </div>
+    </div>
+
     <h3 class={cm.title}>Colors</h3>
     <div class={cm.row} style={{ alignItems: 'center' }}>
        <Color color="#409eff" showValue />
@@ -139,6 +169,25 @@ const render = () => (
   cursor: pointer;
   transition: all 0.2s;
   background-color: var(--bg-component);
+}
+
+.themeCard {
+  width: 200px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-base);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.themeCard h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
 }
 .iconItem:hover {
   border-color: var(--color-primary);

@@ -7,7 +7,7 @@ AI-UI 是一个基于 **Vue 3** + **Vite** + **TypeScript** + **JSX** 构建的�
 - **🚀 前沿技术栈**: 采用 Vue 3 (Composition API), Vite, TypeScript, JSX (SFC) 进行开发，保持代码的现代化和高性能。
 - **🎨 上下文主题系统 (Contextual Theming)**:
   - 基于 CSS 变量 (CSS Variables) 构建。
-  - 支持 **Light (默认)**, **Dark**, **Deep Blue** 等多种内置主题。
+  - 支持 **Light (默认)**, **Dark**, **Deep Blue**, **Matcha**, **Lavender**, **Latte** 等多种内置主题。
   - **级联特性**: 支持在任意容器组件（如 Card, Layout）上设置主题，该主题会自动级联应用到其所有子组件，实现局部的深色/浅色模式嵌套。
 - **📱 响应式布局**: 内置 `AdminLayout` 管理后台布局，支持 PC、平板、手机端的自动适配（侧边栏自动折叠/展开/抽屉式交互）。
 - **🧩 丰富的组件库**: 包含 40+ 个常用组件，覆盖基础、表单、数据展示、导航、反馈等各个方面。
@@ -120,6 +120,11 @@ AI-UI 的核心特性是基于 `data-theme` 属性的主题切换：
 #### Tree 组件 (Enhanced)
 - **复选框选择**: 支持 `checkable` 属性，自动处理父子节点选中状态联动。
 - **懒加载**: 支持 `loadData` 异步加载子节点。
+
+#### InputTag 组件 (New)
+- 标签输入组件，支持输入文本后按 `Enter` 或 `Space` 生成标签。
+- 支持 `v-model` 绑定字符串数组 (`string[]`)。
+- 支持删除标签 (`Backspace` 或点击关闭图标)。
 
 ## 🤝 贡献 (Contribution)
 欢迎提交 Issue 或 Pull Request 来丰富组件库或修复 Bug。请确保遵循现有的代码风格和组件结构。

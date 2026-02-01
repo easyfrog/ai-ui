@@ -102,3 +102,78 @@
   
   --color-primary: var(--c-sky-400); /* Lighter blue for dark background */
 }
+
+/* =========================================
+   THEME: MATCHA (Fresh/Nature/Morandi Green)
+   ========================================= */
+[data-theme='matcha'] {
+  --bg-app: #f2f5f3;
+  --bg-overlay: #ffffff;
+  --bg-component: #ffffff;
+  --bg-component-hover: #eef2f0;
+  --bg-component-active: #e4e9e6;
+
+  --text-primary: #354a3d;
+  --text-regular: #5e7366;
+  --text-secondary: #8da195;
+  --text-placeholder: #bdcdc4;
+
+  --border-base: #e0e6e2;
+  --border-hover: #ccd6d0;
+  
+  --color-primary: #86a697; /* Sage Green */
+  --color-success: #86a697;
+  --color-warning: #d9c589;
+  --color-danger:  #d98989;
+  --color-info:    #8da195;
+}
+
+/* =========================================
+   THEME: LAVENDER (Elegant/Morandi Purple)
+   ========================================= */
+[data-theme='lavender'] {
+  --bg-app: #f7f6f9;
+  --bg-overlay: #ffffff;
+  --bg-component: #ffffff;
+  --bg-component-hover: #f2f0f5;
+  --bg-component-active: #ebe7f0;
+
+  --text-primary: #453e4d;
+  --text-regular: #70697a;
+  --text-secondary: #9c95a6;
+  --text-placeholder: #c9c2d1;
+
+  --border-base: #eaddf0;
+  --border-hover: #dccce6;
+  
+  --color-primary: #9f92b3; /* Muted Purple */
+  --color-success: #8fb392;
+  --color-warning: #d9ca89;
+  --color-danger:  #d9899e;
+  --color-info:    #9c95a6;
+}
+
+/* =========================================
+   THEME: WARM (Latte/Morandi Beige)
+   ========================================= */
+[data-theme='warm'] {
+  --bg-app: #fcfbf9;
+  --bg-overlay: #ffffff;
+  --bg-component: #ffffff;
+  --bg-component-hover: #f7f4ef;
+  --bg-component-active: #efebe4;
+
+  --text-primary: #524b45;
+  --text-regular: #7d756d;
+  --text-secondary: #a8a098;
+  --text-placeholder: #d1cbc4;
+
+  --border-base: #ede8e1;
+  --border-hover: #e0dbd3;
+  
+  --color-primary: #b0a293; /* Warm Taupe */
+  --color-success: #93b098;
+  --color-warning: #d9c489;
+  --color-danger:  #d99889;
+  --color-info:    #a8a098;
+}

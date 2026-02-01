@@ -51,6 +51,9 @@ const render = () => {
                     <DropdownItem onClick={() => emit('update:theme', 'light')}>Light</DropdownItem>
                     <DropdownItem onClick={() => emit('update:theme', 'dark')}>Dark</DropdownItem>
                     <DropdownItem onClick={() => emit('update:theme', 'deep-blue')}>Deep Blue</DropdownItem>
+                    <DropdownItem onClick={() => emit('update:theme', 'matcha')}>Matcha (Fresh)</DropdownItem>
+                    <DropdownItem onClick={() => emit('update:theme', 'lavender')}>Lavender (Elegant)</DropdownItem>
+                    <DropdownItem onClick={() => emit('update:theme', 'warm')}>Latte (Warm)</DropdownItem>
                   </div>
                 )
               }}

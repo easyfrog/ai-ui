@@ -4,6 +4,7 @@
 
 <script lang="tsx" setup>
 import { useCssModule } from 'vue'
+import Icon from '../Icon/Icon.vue'
 
 const props = defineProps<{
   modelValue?: string
@@ -26,6 +27,9 @@ const render = () => {
         placeholder={props.placeholder}
         onInput={(e: any) => emit('update:modelValue', e.target.value)}
       />
+      <span class={cm.iconWrapper}>
+        <Icon name="calendar" />
+      </span>
     </div>
   )
 }
@@ -50,7 +54,7 @@ const render = () => {
   height: 32px;
   line-height: 32px;
   outline: none;
-  padding: 0 11px;
+  padding: 0 30px 0 11px;
   transition: border-color .2s cubic-bezier(.645,.045,.355,1);
   width: 100%;
 }
@@ -65,9 +69,29 @@ const render = () => {
   color: var(--text-secondary);
 }
 
-.wrapper[data-theme='dark'] .input::-webkit-calendar-picker-indicator,
-.wrapper[data-theme='deep-blue'] .input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+.input::-webkit-calendar-picker-indicator {
+  opacity: 0;
   cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+.iconWrapper {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-regular);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
 }
 </style>

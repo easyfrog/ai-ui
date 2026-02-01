@@ -18,6 +18,7 @@ import DatePicker from '../components/DatePicker/DatePicker.vue'
 import TimePicker from '../components/TimePicker/TimePicker.vue'
 import ColorPicker from '../components/ColorPicker/ColorPicker.vue'
 import Uploader from '../components/Uploader/Uploader.vue'
+import InputTag from '../components/InputTag/InputTag.vue'
 
 const cm = useCssModule()
 
@@ -31,7 +32,8 @@ const formData = reactive({
   slider: 50,
   date: '',
   time: '',
-  color: '#409eff'
+  color: '#409eff',
+  tags: ['Vue', 'React']
 })
 
 const cityOptions = [
@@ -48,6 +50,9 @@ const render = () => (
       <Form labelWidth="120px" model={formData}>
         <FormItem label="Input">
           <Input modelValue={formData.name} placeholder="Name" onUpdate:modelValue={v => formData.name = v as string} />
+        </FormItem>
+        <FormItem label="InputTag">
+          <InputTag modelValue={formData.tags} placeholder="Add tags..." onUpdate:modelValue={v => formData.tags = v as string[]} />
         </FormItem>
         <FormItem label="Select">
           <Select modelValue={formData.city} options={cityOptions} onUpdate:modelValue={v => formData.city = v as string} />
