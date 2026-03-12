@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AdminLayout from '../components/Layout/AdminLayout.vue'
+import AdminLayout from '../demo/layout/AdminLayout.vue'
 
 const routes = [
   {

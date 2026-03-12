@@ -82,7 +82,7 @@ const slots = useSlots()
 .menuItem {
   height: 56px;
   line-height: 56px;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   color: var(--text-regular);
   padding: 0 20px;
   list-style: none;

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { useCssModule, provide, ref, computed } from 'vue'
+import { useCssModule, provide, ref, computed, watch } from 'vue'
 
 const props = defineProps<{
   defaultActive?: string
@@ -15,6 +15,10 @@ const props = defineProps<{
 const emit = defineEmits(['select'])
 const cm = useCssModule()
 const activeIndex = ref(props.defaultActive)
+
+watch(() => props.defaultActive, (v) => {
+  activeIndex.value = v
+})
 
 const handleSelect = (index: string) => {
   activeIndex.value = index

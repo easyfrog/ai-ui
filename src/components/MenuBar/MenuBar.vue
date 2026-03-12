@@ -3,79 +3,23 @@
 </template>
 
 <script lang="tsx" setup>
-import { useCssModule } from 'vue'
-import Menu from '../Menu/Menu.vue'
-import MenuItem from '../Menu/MenuItem.vue'
-import SubMenu from '../Menu/SubMenu.vue'
-import Avatar from '../Avatar/Avatar.vue'
-import Dropdown from '../Dropdown/Dropdown.vue'
-import DropdownItem from '../Dropdown/DropdownItem.vue'
-import Icon from '../Icon/Icon.vue'
+import { useCssModule, useSlots } from 'vue'
 
 const props = defineProps<{
   theme?: string
-  username?: string
-  avatarUrl?: string
 }>()
 
-const emit = defineEmits(['logout', 'settings', 'update:theme'])
 const cm = useCssModule()
+const slots = useSlots()
 
 const render = () => {
   return (
     <div class={cm.menubar} data-theme={props.theme}>
       <div class={cm.left}>
-        <Menu mode="horizontal" defaultActive="1" theme={props.theme as any}>
-          <MenuItem index="1">Dashboard</MenuItem>
-          <MenuItem index="2">Projects</MenuItem>
-          <MenuItem index="3">Team</MenuItem>
-          <SubMenu index="4" title="Resources" icon="folder">
-            <MenuItem index="4-1">Documentation</MenuItem>
-            <MenuItem index="4-2">API Reference</MenuItem>
-            <SubMenu index="4-3" title="More Tools" icon="setting">
-              <MenuItem index="4-3-1">Tool A</MenuItem>
-              <MenuItem index="4-3-2">Tool B</MenuItem>
-              <MenuItem index="4-3-3">Tool C</MenuItem>
-            </SubMenu>
-            <MenuItem index="4-4">Support</MenuItem>
-          </SubMenu>
-        </Menu>
+        {slots.left?.()}
       </div>
       <div class={cm.right}>
-        <div class={cm.themeSwitch}>
-           <Dropdown>
-              {{
-                default: () => <div class={cm.themeBtn}><Icon name="setting" size="18px" /></div>,
-                content: () => (
-                  <div>
-                    <DropdownItem onClick={() => emit('update:theme', 'light')}>Light</DropdownItem>
-                    <DropdownItem onClick={() => emit('update:theme', 'dark')}>Dark</DropdownItem>
-                    <DropdownItem onClick={() => emit('update:theme', 'deep-blue')}>Deep Blue</DropdownItem>
-                    <DropdownItem onClick={() => emit('update:theme', 'matcha')}>Matcha (Fresh)</DropdownItem>
-                    <DropdownItem onClick={() => emit('update:theme', 'lavender')}>Lavender (Elegant)</DropdownItem>
-                    <DropdownItem onClick={() => emit('update:theme', 'warm')}>Latte (Warm)</DropdownItem>
-                  </div>
-                )
-              }}
-           </Dropdown>
-        </div>
-
-        <Dropdown>
-          {{
-            default: () => (
-              <div class={cm.userInfo}>
-                <Avatar src={props.avatarUrl}>{props.username?.[0] || 'U'}</Avatar>
-                <span class={cm.username}>{props.username || 'User'}</span>
-              </div>
-            ),
-            content: () => (
-              <div>
-                <DropdownItem onClick={() => emit('settings')}>Personal Settings</DropdownItem>
-                <DropdownItem divided onClick={() => emit('logout')}>Logout</DropdownItem>
-              </div>
-            )
-          }}
-        </Dropdown>
+        {slots.right?.()}
       </div>
     </div>
   )
@@ -101,38 +45,5 @@ const render = () => {
 .right {
   display: flex;
   align-items: center;
-}
-
-.themeSwitch {
-  margin-right: 20px;
-  cursor: pointer;
-}
-
-.themeBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-regular);
-  transition: background-color 0.3s;
-}
-
-.themeBtn:hover {
-  background-color: var(--bg-component-hover);
-  color: var(--color-primary);
-}
-
-.userInfo {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.username {
-  margin-left: 10px;
-  font-size: var(--font-size-base);
-  color: var(--text-regular);
 }
 </style>

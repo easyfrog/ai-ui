@@ -3,10 +3,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { useCssModule, ref, watch } from 'vue'
-import Menu from '../Menu/Menu.vue'
-import MenuItem from '../Menu/MenuItem.vue'
-import SubMenu from '../Menu/SubMenu.vue'
+import { useCssModule, ref, useSlots, watch } from 'vue'
 import Icon from '../Icon/Icon.vue'
 
 const props = defineProps<{
@@ -17,6 +14,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['update:collapsed'])
+const slots = useSlots()
 
 // Internal state initialized from props
 const internalCollapsed = ref(props.collapsed || false)
@@ -44,17 +42,7 @@ const render = () => {
       </div>
       
       <div class={cm.menuWrapper}>
-        <Menu mode="vertical" collapse={internalCollapsed.value} defaultActive="1" theme={props.theme as any}>
-          <MenuItem index="1" icon="home" to="/">Home</MenuItem>
-          <SubMenu index="2" title="Components" icon="search">
-            <MenuItem index="2-1" to="/basic">Basic</MenuItem>
-            <MenuItem index="2-2" to="/form">Form</MenuItem>
-            <MenuItem index="2-3" to="/data">Data</MenuItem>
-            <MenuItem index="2-4" to="/feedback">Feedback</MenuItem>
-            <MenuItem index="2-5" to="/navigation">Navigation</MenuItem>
-          </SubMenu>
-            <MenuItem index="2-6" to="/theme-editor">Theme Editor</MenuItem>
-        </Menu>
+        {slots.default?.({ collapsed: internalCollapsed.value })}
       </div>
 
       <div class={cm.collapseBtn} onClick={toggleCollapse}>
