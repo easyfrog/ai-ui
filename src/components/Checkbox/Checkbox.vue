@@ -51,7 +51,7 @@ const render = () => {
 <style module>
 .checkbox {
   color: var(--text-regular);
-  font-size: 14px;
+  font-size: var(--font-size-base);
   cursor: pointer;
   user-select: none;
   display: inline-flex;

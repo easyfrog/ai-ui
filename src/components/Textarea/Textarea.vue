@@ -47,7 +47,7 @@ const render = () => {
   display: inline-block;
   width: 100%;
   vertical-align: bottom;
-  font-size: 14px;
+  font-size: var(--font-size-base);
 }
 
 .textarea {

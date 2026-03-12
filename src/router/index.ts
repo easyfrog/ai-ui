@@ -41,6 +41,12 @@ const routes = [
         name: 'Navigation',
         component: () => import('../views/NavigationView.vue'),
         meta: { title: 'Navigation Components' }
+      },
+      {
+        path: 'theme-editor',
+        name: 'ThemeEditor',
+        component: () => import('../views/ThemeEditorView.vue'),
+        meta: { title: 'Theme Editor' }
       }
     ]
   }

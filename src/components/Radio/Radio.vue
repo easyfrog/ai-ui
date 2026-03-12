@@ -52,7 +52,7 @@ const render = () => {
 <style module>
 .radio {
   color: var(--text-regular);
-  font-size: 14px;
+  font-size: var(--font-size-base);
   cursor: pointer;
   user-select: none;
   display: inline-flex;

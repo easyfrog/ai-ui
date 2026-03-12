@@ -44,7 +44,7 @@ const render = () => {
   align-items: center;
   height: 24px;
   padding: 0 9px;
-  font-size: 12px;
+  font-size: var(--font-size-small);
   line-height: 1;
   border-width: 1px;
   border-style: solid;
@@ -54,8 +54,8 @@ const render = () => {
   margin-right: 8px;
 }
 
-.large { height: 32px; padding: 0 11px; font-size: 14px; }
-.small { height: 20px; padding: 0 7px; font-size: 12px; }
+.large { height: 32px; padding: 0 11px; font-size: var(--font-size-base); }
+.small { height: 20px; padding: 0 7px; font-size: var(--font-size-small); }
 
 .primary { background-color: rgba(64, 158, 255, 0.1); border-color: rgba(64, 158, 255, 0.2); color: var(--color-primary); }
 .success { background-color: rgba(103, 194, 58, 0.1); border-color: rgba(103, 194, 58, 0.2); color: var(--color-success); }
@@ -72,7 +72,7 @@ const render = () => {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: var(--font-size-small);
 }
 .close:hover {
   background-color: rgba(0,0,0,0.2);

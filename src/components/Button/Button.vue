@@ -53,7 +53,7 @@ const render = () => {
   font-weight: 500;
   user-select: none;
   padding: 8px 15px;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   border-radius: 4px;
   border: 1px solid transparent;
   margin-right: 8px;
@@ -66,13 +66,13 @@ const render = () => {
 .large {
   height: 40px;
   padding: 12px 20px;
-  font-size: 16px;
+  font-size: var(--font-size-large);
 }
 
 .small {
   height: 24px;
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: var(--font-size-small);
 }
 
 .default {

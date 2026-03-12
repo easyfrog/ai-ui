@@ -32,7 +32,7 @@ const render = () => {
 
 <style module>
 .text {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   color: var(--text-regular);
   display: inline-block;
 }
@@ -44,8 +44,8 @@ const render = () => {
   max-width: 100%;
 }
 
-.large { font-size: 16px; }
-.small { font-size: 12px; }
+.large { font-size: var(--font-size-large); }
+.small { font-size: var(--font-size-small); }
 
 .bold { font-weight: bold; }
 

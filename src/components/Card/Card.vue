@@ -55,7 +55,7 @@ const render = () => {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-base);
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--font-size-large);
   color: var(--text-primary);
 }
 

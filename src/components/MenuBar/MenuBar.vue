@@ -132,7 +132,7 @@ const render = () => {
 
 .username {
   margin-left: 10px;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   color: var(--text-regular);
 }
 </style>

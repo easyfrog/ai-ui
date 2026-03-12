@@ -60,6 +60,12 @@
   --color-warning: var(--c-yellow-500);
   --color-danger: var(--c-red-500);
   --color-info: var(--c-zinc-500);
+
+  --font-family-base: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-size-small: 12px;
+  --font-size-base: 14px;
+  --font-size-large: 16px;
+  --font-size-xl: 18px;
 }
 
 /* =========================================

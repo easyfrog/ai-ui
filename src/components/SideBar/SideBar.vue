@@ -53,6 +53,7 @@ const render = () => {
             <MenuItem index="2-4" to="/feedback">Feedback</MenuItem>
             <MenuItem index="2-5" to="/navigation">Navigation</MenuItem>
           </SubMenu>
+            <MenuItem index="2-6" to="/theme-editor">Theme Editor</MenuItem>
         </Menu>
       </div>
 
@@ -93,7 +94,7 @@ const render = () => {
 .title {
   margin-left: 10px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: var(--font-size-xl);
   color: var(--text-primary);
 }
 
